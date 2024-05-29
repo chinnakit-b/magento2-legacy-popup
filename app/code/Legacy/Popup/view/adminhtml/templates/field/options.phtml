@@ -1,0 +1,75 @@
+<?php
+$storetotal = 1;
+?>
+<fieldset class="admin__fieldset fieldset" style="width: 420px;">
+    <legend class="legend">
+        <span>Responsive Size</span>
+    </legend><br />
+    <div class="admin__control-table-wrapper" id="manage-options-panel" data-index="attribute_options_select_container">
+        <table class="admin__control-table" data-index="attribute_options_select">
+            <thead>
+                <tr id="attribute-options-table">
+                    <th style="padding-left: 2rem;" class="col-default">Screen Width</th>
+                    <th class="col-delete">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody data-role="options-container" class="ignore-validate"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2" class="validation">
+                        <input type="hidden" class="required-dropdown-attribute-entry" name="dropdown_attribute_validation"/>
+                        <input type="hidden" class="required-dropdown-attribute-unique" name="dropdown_attribute_validation_unique"/>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="col-actions-add">
+                        <button id="add_new_option_button" data-action="add_new_row" onclick="addOption(this)"
+                                title="<?= __('Add Option');?>"
+                                type="button" class="action- scalable add">
+                            <span><?= __('Add Option');?></span>
+                        </button>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+        <input type="hidden" id="option-count-check" value="" />
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+
+    require([
+        'jquery'
+    ], function ($) {
+
+        setTimeout(function () {
+
+            let l1 = $("label[for=lgpopup_include_pages]");
+            let l2 = $("label[for=lgpopup_exclude_page]");
+
+            let wpts = $("#lgpopup_which_page_to_show").val();
+            if (wpts == 1){
+                l1.hide();
+                l2.hide();
+            }
+
+
+            $("#lgpopup_which_page_to_show").on("change", function (i, e) {
+                console.log($(this).val())
+                if ($(this).val() == 2){
+                    l1.show();
+                    l2.show();
+                }else {
+                    l1.hide();
+                    l2.hide();
+                }
+            });
+        })
+    });
+
+</script>
+<style>
+    input#lgpopup_responsive_option {
+        display: none;
+    }
+</style>

@@ -1,0 +1,255 @@
+<?php
+
+/** @var \Legacy\Popup\Block\Popup $block */
+$is_enable = $block->isEnable();
+
+$close_popup = false;
+if (isset($_COOKIE["close_popup"])){
+    $close_popup = true;
+}
+
+$cookie_exp = $block->cookieExpire();
+if (empty($cookie_exp)){
+    $cookie_exp = 30;
+}
+
+$show_btn_close = $block->dontShowBtn();
+
+?>
+
+<?php if ($is_enable):?>
+    <?php
+    $all_popup = $block->getAllPopup();
+    if (!empty($all_popup)){
+        $all_popup = $block->setIncludeExcludePage($all_popup);
+    }
+    ?>
+    <?php if (!empty($all_popup)):?>
+        <?php $pop_qty = count($all_popup);?>
+        <div id="legacy-popup" class="popup-modal-overlay" style="opacity: 0; visibility: hidden;">
+            <?php if ($pop_qty == 1):?>
+                <?php foreach ($all_popup as $popup):?>
+                    <?php
+                    $width = $popup['width'];
+                    $height = $popup['height'];
+                    $style = '';
+                    if (!empty($width) || !empty($height)){
+                        if (!empty($width)){
+                            $style .= "width: " . str_replace("px", "", $width) . "px;";
+                        }
+
+                        if (!empty($height)){
+                            $style .= " height: " . str_replace("px", "", $height) . "px;";
+                        }
+
+                        $style = 'style="' . $style . '"';
+                    }
+                    ?>
+                    <div class="popup-modal-content d-none" data-pop-id="<?php echo $popup['entity_id']?>" <?php echo $style;?>>
+                        <button class="close-modal-btn" onclick="closePopup()">&times;</button>
+                        <div class="popup-content" style="width: 100%;">
+                            <?php
+                            $content = stripslashes($popup['content']);
+                            echo $block->replaceMediaPath($content);
+                            ?>
+
+                            <div class="action-hide-popup <?php echo $show_btn_close ? '' : 'd-none'?>">
+                                <input type="checkbox" class="checkbox-hide" id="hide_<?php echo $popup['entity_id']?>" value="<?php echo $popup['entity_id']?>"/>
+                                <label for="hide_<?php echo $popup['entity_id']?>">ไม่แสดง Popup นี้อีก</label>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach;?>
+            <?php else:?>
+                <div class="popup-slide owl-theme owl-carousel" style="width: 100%">
+                    <?php foreach ($all_popup as $popup):?>
+                        <div class="content-list item">
+                            <?php
+                            $width = $popup['width'];
+                            $height = $popup['height'];
+                            $style = '';
+                            if (!empty($width) || !empty($height)){
+                                if (!empty($width)){
+                                    $style .= "width: " . str_replace("px", "", $width) . "px;";
+                                }
+
+                                if (!empty($height)){
+                                    $style .= " height: " . str_replace("px", "", $height) . "px;";
+                                }
+
+                                $style = 'style="' . $style . '"';
+                            }
+                            ?>
+                            <div id="unique_popup_id_<?php echo $popup['entity_id']?>" class="popup-modal-content d-none" data-pop-id="<?php echo $popup['entity_id']?>" <?php echo $style;?>>
+                                <button class="close-modal-btn" onclick="closePopup()">&times;</button>
+                                <div class="popup-content" style="width: 100%;">
+                                    <?php
+                                    $content = stripslashes($popup['content']);
+                                    echo $block->replaceMediaPath($content);
+                                    ?>
+
+                                    <div class="action-hide-popup <?php echo $show_btn_close ? '' : 'd-none'?>">
+                                        <input type="checkbox" class="checkbox-hide" id="hide_<?php echo $popup['entity_id']?>" value="<?php echo $popup['entity_id']?>"/>
+                                        <label for="hide_<?php echo $popup['entity_id']?>">ไม่แสดง Popup นี้อีก</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo $block->renderCustomStyleCss($popup);?>
+                        </div>
+                    <?php endforeach;?>
+                </div>
+            <?php endif;?>
+        </div>
+
+    <style>
+        button.close-modal-btn {
+            font-size: 43px !important;
+        }
+        /*.popup-modal-overlay .content-list {*/
+        /*    margin: unset !important;*/
+        /*    text-align: center;*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*}*/
+
+    </style>
+
+        <script type="text/javascript">
+
+            require([
+                'jquery',
+                'mageplaza/core/owl.carousel'
+            ], function ($) {
+
+                setTimeout(function () {
+
+                    let c_pop = getCookie('close_popup');
+                    let p_content = $(".popup-modal-content");
+
+                    if (p_content.length){
+                        let array = c_pop.split(',').map(Number);
+                        let available_qty = 0;
+                        if (c_pop == ''){
+                            available_qty = p_content.length
+                            p_content.removeClass("d-none");
+
+                            jQuery("#legacy-popup")
+                                .css('opacity', 1)
+                                .css('visibility', 'visible');
+                        }else {
+                            p_content.each(function (i, e) {
+                                let id = parseInt($(e).attr('data-pop-id'));
+                                if (array.indexOf(id) !== -1) {
+                                    // console.log("remove id : " +  id)
+
+                                    $(e).closest(".content-list").remove();
+                                } else {
+                                    $(e).removeClass("d-none");
+                                    available_qty++;
+                                    // console.log("show id : " +  id)
+                                }
+                            });
+                        }
+
+                        if (available_qty > 0){
+                            jQuery("#legacy-popup")
+                                .css('opacity', 1)
+                                .css('visibility', 'visible');
+                            p_content.removeClass("d-none");
+                        }
+
+                        if (p_content.length > 1){
+
+                            setTimeout(function () {
+                                jQuery('.popup-slide').owlCarousel({
+                                    items: 1,
+                                    autoWidth:false,
+                                    autoHeight:true,
+                                    center:true,
+                                    "loop": false,
+                                    "nav": false,
+                                    "navText": false,
+                                    "dots": false,
+                                    vertical: false
+                                });
+                            })
+                        }
+                    }
+                })
+            });
+
+            let hid_btn_close = <?php echo $show_btn_close ? 1 : 0?>;
+
+            function closePopup(){
+                var day_exp = <?php echo $cookie_exp?>;
+                jQuery("#legacy-popup")
+                    .css('opacity', 0)
+                    .css('visibility', 'hidden');
+
+                let popup_hide = [];
+                let c_pop = getCookie('close_popup');
+                if (c_pop != ''){
+                    popup_hide = c_pop.split(',').map(Number);
+                }
+
+                let input_checked = jQuery('.popup-modal-content .checkbox-hide');
+                if (hid_btn_close){
+                    input_checked = jQuery('.popup-modal-content .checkbox-hide:checked')
+                }
+
+                input_checked.each(function(i, e){
+                    popup_hide.push(jQuery(e).val())
+                });
+
+                if (popup_hide.length){
+                    setCookie('close_popup', popup_hide, day_exp);
+                }
+            }
+
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                let expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var popupOverlay = document.getElementById('legacy-popup');
+                let popup_qty = document.querySelectorAll(".popup-modal-content").length;
+
+                // Toggle popup visibility when clicking outside of the content
+                popupOverlay.addEventListener('click', function(event) {
+                    if (!event.target.closest('.popup-modal-content')) {
+                        if (popup_qty == 1){
+                            popupOverlay.style.opacity = '0';
+                            popupOverlay.style.visibility = 'hidden';
+                        }
+                    }
+                });
+
+                // Prevent the click event from bubbling up to the overlay
+                document.querySelector('.content').addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            });
+        </script>
+
+
+    <?php endif;?>
+<?php endif;?>

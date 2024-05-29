@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Legacy_Popup::manager" title="Legacy" module="Legacy_Popup" sortOrder="10" resource="Legacy_Popup::manager"/>
+        <add id="Legacy_Popup::add_row" title="Popup" module="Legacy_Popup" sortOrder="20" parent="Legacy_Popup::manager" action="legacy_popup/manage/" resource="Legacy_Popup::add_row"/>
+    </menu>
+</config>

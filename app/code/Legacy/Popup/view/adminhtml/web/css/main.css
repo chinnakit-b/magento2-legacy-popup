@@ -1,0 +1,8 @@
+#menu-legacy-popup-manager > a:before{
+    background: url(../images/legacy.png) no-repeat;
+    width: 45px;
+    height: 40px;
+    background-size: cover;
+    content: '';
+    margin: 0 auto;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<!--    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">-->
+<!--        <arguments>-->
+<!--            <argument name="collections" xsi:type="array">-->
+<!--                <item name="legacy_popup_listing_data_source" xsi:type="string">Legacy\Popup\Model\ResourceModel\Popup\Collection</item>-->
+<!--            </argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
+<!--    <virtualType name="Legacy\Popup\Model\ResourceModel\Popup\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">-->
+<!--        <arguments>-->
+<!--            <argument name="mainTable" xsi:type="string">legacy_popup</argument>-->
+<!--            <argument name="resourceModel" xsi:type="string">Legacy\Popup\Model\ResourceModel\Popup</argument>-->
+<!--        </arguments>-->
+<!--    </virtualType>-->
+
+    <preference for="Legacy\Popup\Api\Data\PopupInterface" type="Legacy\Popup\Model\Popup" />
+    <virtualType name="Legacy\Popup\Model\ResourceModel\Popup\Popup\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">legacy_popup</argument>
+            <argument name="resourceModel" xsi:type="string">Legacy\Popup\Model\ResourceModel\Popup</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="legacy_popup_listing_data_source" xsi:type="string">Legacy\Popup\Model\ResourceModel\Popup\Popup\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

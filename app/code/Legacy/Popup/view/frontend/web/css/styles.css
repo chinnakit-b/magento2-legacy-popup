@@ -1,0 +1,51 @@
+.popup-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999; }
+  .popup-modal-overlay .popup-modal-content {
+    width: 450px;
+    position: relative;
+    height: auto;
+    background-color: white;
+    border-radius: 12px;
+    margin: 0 auto;
+    margin-top: 20px; }
+    .popup-modal-overlay .popup-modal-content .close-modal-btn {
+      color: #8d8d8d;
+      border: 0;
+      background-color: transparent;
+      padding: 0;
+      float: right;
+      margin-right: 15px;
+      font-size: 1.5rem;
+      position: absolute;
+      right: 0; }
+      .popup-modal-overlay .popup-modal-content .close-modal-btn:hover {
+        color: #616161;
+        background-color: transparent !important; }
+      .popup-modal-overlay .popup-modal-content .close-modal-btn:focus {
+        outline: none; }
+    .popup-modal-overlay .popup-modal-content .popup-content .action-hide-popup {
+      display: flex;
+      position: absolute;
+      bottom: 14px;
+      margin-left: 10px;
+      align-items: center; }
+      .popup-modal-overlay .popup-modal-content .popup-content .action-hide-popup label {
+        color: black;
+        margin-bottom: 0;
+        margin-top: 10px;
+        font-size: 16px;
+        margin-left: 6px; }
+    .popup-modal-overlay .popup-modal-content .popup-content p {
+      margin-bottom: 0 !important; }

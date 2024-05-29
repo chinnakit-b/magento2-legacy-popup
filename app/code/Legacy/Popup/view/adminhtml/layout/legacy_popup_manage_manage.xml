@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Legacy_Popup::js/popup_script.js"/>
+<!--        <script src="Legacy_Popup::js/huebee/huebee.pkgd.min.js"/>-->
+<!--        <css src="Legacy_Popup::css/huebee/huebee.min.css"/>-->
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Legacy\Popup\Block\Adminhtml\Manage\Manage" name="add_popup"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @author Chinnakit Borklang
+* @copyright Copyright (c) 2024
+* @package Legacy_Popup
+*/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Legacy_Popup::css/main.css"/>
+    </head>
+</page>
